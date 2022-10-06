@@ -16,14 +16,23 @@ app.use(express.static(publicDirectoryPath))
 
 io.on('connection', (socket) => {
     console.log('new web socket connection')
-socket.emit('message','Welcome!')
-   socket.on('sendmessage',(message) =>{
+    socket.emit('message', 'Welcome!')
 
-io.emit('message',message)
+    socket.broadcast.emit('message', 'New User has joined')
+    socket.on('sendmessage', (message) => {
 
-   })
-    
+        io.emit('message', message)
 
+    })
+
+    socket.on('disconnect', () => {
+        io.emit('message', 'A user has left the chat')
+
+
+    })
+    socket.on('location', (coords) => {
+        io.emit('message', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+    })
 
 })
 

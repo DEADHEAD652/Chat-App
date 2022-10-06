@@ -1,13 +1,32 @@
 const socket = io()
 
 
-socket.on('message', (message) =>{
-console.log(message)
+socket.on('message', (message) => {
+    console.log(message)
 
 })
 document.querySelector('#msgform').addEventListener('submit', (e) => {
     e.preventDefault()
-    const message = document.querySelector('input').value
-    socket.emit('sendmessage',message)
+    const message = e.target.elements.message.value
+    socket.emit('sendmessage', message)
+
+})
+document.querySelector('#loc-btn').addEventListener('click', () => {
+
+    if (!navigator.geolocation) {
+        return alert('Geo Location is not supported by your browser')
+
+    }
+    navigator.geolocation.getCurrentPosition((position) => {
+
+        socket.emit('location', {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+
+        })
+
+    })
+
+
 
 })
