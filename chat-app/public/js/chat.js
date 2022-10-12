@@ -4,9 +4,19 @@ const $messageForm = document.querySelector('#msgform')
 const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormBtn = $messageForm.querySelector('button')
 const $GeoLocation = document.querySelector('#loc-btn')
+const $messages = document.querySelector('#message')
+
+//Templates
+const msgTemplate = document.querySelector('#message-template').innerHTML
+
+
 socket.on('message', (message) => {
     console.log(message)
+    const html = Mustache.render(msgTemplate, {
 
+        message 
+    })
+    $messages.insertAdjacentHTML('beforeend', html)
 })
 $messageForm.addEventListener('submit', (e) => {
     e.preventDefault()
