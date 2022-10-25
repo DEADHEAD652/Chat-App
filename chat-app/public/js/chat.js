@@ -1,5 +1,6 @@
 const socket = io()
 
+
 // Elements
 const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
@@ -12,7 +13,7 @@ const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationMessageTemplate = document.querySelector('#location-message-template').innerHTML
 
 //Options
- const {} = qs.parse(location.search,{ignoreQueryPrefix:true})
+ const {username, room} = Qs.parse(location.search,{ignoreQueryPrefix:true})
 
 socket.on('message', (message) => {
     console.log(message)
@@ -69,3 +70,5 @@ $sendLocationButton.addEventListener('click', () => {
         })
     })
 })
+
+socket.emit('join', { username, room})
